@@ -1,0 +1,145 @@
+net_run_verbose false??
+batch_size=1?
+bnorm_moment_type_trn='global'?
+bnorm_moment_type_tst='global??
+weightDecay= 0.0005
+momentum = 0.9
+learning_rate = 5*10 -4
+eva_run_step = 5?
+fig_plot_step=1?
+
+train_opts.epoch_task_subsample=true;
+train_opts.epoch_task_num_min=1000;
+train_opts.epoch_task_num_max=2000;
+train_opts.epoch_run_max_task_one_class=100;
+
+train_opts.epoch_task_gen_type_train='class_sample';
+% train_opts.epoch_task_gen_type_train='random';
+
+data_aug_config.aug_scales=[0.7:0.1:1.3];
+
+% random horizontal flip
+data_aug_config.aug_flips=[false true]; ??
+
+data_crop_config.gen_crop_point_type='class_sample';
+% data_crop_config.gen_crop_point_type='random';
+
+data_crop_config.crop_box_step_ratio=0.2;
+data_crop_config.crop_box_size=run_config.crop_box_size;
+
+train_opts.input_featnet_lr_multiplier=0.1;
+
+input_adapt_dims=[512 256 256 256]; use?
+
+path_str=sprintf('p_ims%.1f_outl%d', img_scale, out_path_idx);
+
+one_refine_config.input_adapt_dim=input_adapt_dims(o_idx);
+input_adapt...=[512 256 256 256]
+odx from 1 to 4
+
+refine_config_paths 
+contains all the details of the adapted dimensions and also the names
+
+refineNet path
+featnet_config.pre_trained_model_file=sprintf('D:/TUHH/Arbeit/refinenet-master/refinen
+
+Some extra features that could be implemented
+% 2-scale setting:
+% input_featnet_configs{1}=gen_featnet_config_resnet_custom(train_opts, 50, 0.6, 4, 1);
+% input_featnet_configs{2}=gen_featnet_config_resnet_custom(train_opts, 50, 1.2, 4, 1);
+% using an extra feature net connected directly from input image
+% input_featnet_configs{end+1, 1}=gen_featnet_config_imgraw();
+
+% set the pooling number to 2 or 4:
+% refine_config.chained_pool_num=2;
+refine_config.chained_pool_num=4;
+refine_config.chained_pool_size=5;
+
+refine_config.refine_block_conv_num_mainflow=3;
+refine_config.adapt_conv_num=2;
+
+maybe this indicates the total number of path from the ResNet??
+output_path_num= 4.. why?
+
+refine_config.path_group_ids=[1 2 3 4];
+% 2-scale setting:
+%refine_config.path_group_ids=[1 2 3 4 1 2 3 4];
+
+loss_config.lr_multiplier=1;
+loss_config.lossgroup_conv_num=0;
+
+refine_config and input_featnet_configs both have refine_config_paths
+
+sampled_epoch_idxes contains numbers from 5 to 600 in steps of 5
+
+model_cache_epoch_idxes_snapshot: captures mostly the cache model after each epox.. not sure!
+
+train_opts.model_cache_epoch_idxes = inf??
+
+train_opts.model_cache_epoch_idxes vs train_opts.eva_epoch_idxes ??
+
+train_opts.eva_param.save_predict_mask = 0 ??
+train_opts.eva_param.save_predict_result_full = 0??
+
+diary is used to save the command window data
+
+ds_info has all information regarding the image database!
+
+preprocessing: Normalisation is done here! subtraction of 128 from the image!
+
+% model file and the file name follow the pattern: net-config*.mat
+
+group counter = 1: child relation 'chain'?
+
+group_info.forward_begin_fn ??
+
+group_name = root?
+
+multi_featnet_group_info.child_relation='parallel' ?
+multi_featnet_group indicates the number of cascading that is present.. mostly..
+dagnn type
+
+layers removed from ResNet
+dag_net.removeLayer('prob');
+dag_net.removeLayer('fc1000');
+dag_net.removeLayer('pool5');
+
+modifiying the ResNet as follows
+fix_batch_norm_resnet(dag_net):
+dag_net.params(tmp_param_idx).trainMethod='fixed';
+changing the train method from 'average' to 'fixed'
+moments params are made fixed
+
+
+output_dim_vars(input_var_idx)=input_var_dim; 3
+
+first_var_dim=l.block.size(4); 64
+
+gen_network_featnet_resnet
+
+featnet_config.init_output_path_id = 1??
+
+gen_stage_output_info?
+it creates a flag of size same as the resnet
+input_var_dim=start_conv_layer.block.size(3);
+output_dim_vars(input_var_idx)=input_var_dim;
+it is also modifying the ResNet layers
+get the variable index of the output of the relu layer
+find which has output 2 in this
+
+
+
+My_util_dagnn.dagFindLayersWithInput(dag_net,input_var_name)
+it  find the layer, given the variable name
+
+
+
+
+
+
+
+
+
+
+
+
